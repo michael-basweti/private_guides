@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-from .models import Profile, Video, Image
+from .models import Profile
 from authentication.models import User
 import datetime
 
@@ -8,9 +8,6 @@ import datetime
 class ProfileSerializer(serializers.ModelSerializer):
     
     age = serializers.SerializerMethodField()
-
-    videos = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    images = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     def update(self, instance, validated_data):
         user_data = validated_data.pop('user', None)
@@ -26,13 +23,3 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     def get_age(self, instance):
         return datetime.datetime.now().year - instance.dob.year
-
-class VideoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Video
-        fields = '__all__'
-
-class ImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Image
-        fields = '__all__'

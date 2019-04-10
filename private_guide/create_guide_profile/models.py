@@ -131,12 +131,3 @@ def create_save_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
         instance.profile.save()
-
-
-class Image(models.Model):
-    profile = models.ForeignKey(Profile, related_name="images", on_delete=models.CASCADE)
-    image_url = models.URLField(max_length=250, null=False)
-
-class Video(models.Model):
-    profile = models.ForeignKey(Profile, related_name="videos", on_delete=models.CASCADE)
-    video_url = models.URLField(max_length=250, null=False)

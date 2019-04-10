@@ -1,8 +1,9 @@
 from rest_framework import generics, status, permissions
 from rest_framework.views import APIView
-from .models import Video, Profile, Video
-from .serializers import VideoSerializer, ProfileSerializer, ImageSerializer
 from rest_framework.response import Response
+from .models import Profile
+from .serializers import ProfileSerializer
+from .permissions import IsOwnerOrReadOnly
 
 
 class ProfileView(APIView):
