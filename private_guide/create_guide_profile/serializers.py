@@ -2,29 +2,13 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from .models import Profile, Video, Image
 from authentication.models import User
+import datetime
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    # """
-    # Serializer to map the UserProfile instance into JSON format
-    # """
-    # username = serializers.RegexField(
-    #     regex='^(?!.*\ )[A-Za-z\d\-\_]+$',
-    #     min_length=4,
-    #     required=True,
-    #     source='user.username',
-    #     validators=[
-    #         UniqueValidator(
-    #             queryset=Profile.objects.all(),
-    #             message='Username must be unique',
-    #         )
-    #     ],
-    #     error_messages={
-    #         'invalid': 'Username cannot have a space',
-    #         'required': 'Username is required',
-    #         'min_length': 'Username must have at least 4 characters'
-    #     }
-    # )
+    
+    age = serializers.SerializerMethodField()
+
     videos = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     images = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
@@ -39,6 +23,9 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = '__all__'
+
+    def get_age(self, instance):
+        return datetime.datetime.now().year - instance.dob.year
 
 class VideoSerializer(serializers.ModelSerializer):
     class Meta:
