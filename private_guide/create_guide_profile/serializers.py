@@ -25,6 +25,8 @@ class ProfileSerializer(serializers.ModelSerializer):
     #         'min_length': 'Username must have at least 4 characters'
     #     }
     # )
+    videos = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    images = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     def update(self, instance, validated_data):
         user_data = validated_data.pop('user', None)
