@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'phonenumber_field',
     'authentication',
-    'create_guide_profile'
+    'create_guide_profile',
+    'reviews'
 ]
 
 MIDDLEWARE = [
