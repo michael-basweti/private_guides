@@ -32,6 +32,9 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class ImageSerializer(serializers.ModelSerializer):
+
+    user = serializers.ReadOnlyField(source='user.id')
+
     class Meta:
         model = Image
         fields = '__all__'

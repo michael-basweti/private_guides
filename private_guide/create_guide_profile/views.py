@@ -1,8 +1,8 @@
 from rest_framework import generics, status, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Profile
-from .serializers import ProfileSerializer
+from .models import Profile, Image
+from .serializers import ProfileSerializer, ImageSerializer
 from .permissions import IsOwnerOrReadOnly
 
 
@@ -44,4 +44,10 @@ class ProfileView(APIView):
                     status=status.HTTP_404_NOT_FOUND
                 )
 
+class ImageView(generics.ListCreateAPIView):
+    queryset = Image.objects.all()
+    serializer_class = ImageSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
 
+    def perform_create(self, serializer):
+         serializer.save(user=self.request.user)
