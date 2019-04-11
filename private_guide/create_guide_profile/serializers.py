@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-from .models import Profile, Image
+from .models import Profile, Image, Video
 from authentication.models import User
 import datetime
 from authentication.serializers import UserSerializer
@@ -37,4 +37,12 @@ class ImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Image
+        fields = '__all__'
+
+class VideoSerializer(serializers.ModelSerializer):
+
+    user = serializers.ReadOnlyField(source='user.id')
+
+    class Meta:
+        model = Video
         fields = '__all__'

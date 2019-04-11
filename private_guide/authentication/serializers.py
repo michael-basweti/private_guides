@@ -37,6 +37,7 @@ class UserSerializer(serializers.ModelSerializer):
     )
 
     images = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    videos = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     
     class Meta:
         model = User
@@ -45,7 +46,8 @@ class UserSerializer(serializers.ModelSerializer):
             'email',
             'full_name',
             'password',
-            'images'
+            'images',
+            'videos'
         )
         extra_kwargs = {'password':{'write_only':True}}
 

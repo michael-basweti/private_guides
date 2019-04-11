@@ -1,8 +1,8 @@
 from rest_framework import generics, status, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Profile, Image
-from .serializers import ProfileSerializer, ImageSerializer
+from .models import Profile, Image, Video
+from .serializers import ProfileSerializer, ImageSerializer, VideoSerializer
 from .permissions import IsOwnerOrReadOnly
 
 
@@ -47,6 +47,14 @@ class ProfileView(APIView):
 class ImageView(generics.ListCreateAPIView):
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+
+    def perform_create(self, serializer):
+         serializer.save(user=self.request.user)
+
+class VideoView(generics.ListCreateAPIView):
+    queryset = Video.objects.all()
+    serializer_class = VideoSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
 
     def perform_create(self, serializer):
