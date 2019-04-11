@@ -52,6 +52,13 @@ class ImageView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
          serializer.save(user=self.request.user)
 
+
+class ImageDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Image.objects.all()
+    serializer_class = ImageSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
+
+
 class VideoView(generics.ListCreateAPIView):
     queryset = Video.objects.all()
     serializer_class = VideoSerializer
@@ -59,3 +66,9 @@ class VideoView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
          serializer.save(user=self.request.user)
+
+
+class VideoDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Video.objects.all()
+    serializer_class = VideoSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
