@@ -98,6 +98,7 @@ class Profile(models.Model):
     dob = models.DateField(default=None, blank=True, null=True)
     phone = PhoneNumberField()
     website = models.URLField(max_length=250, null=True)
+    image = models.URLField(max_length=250, null=True)
     country = models.CharField(max_length=100, null=False)
     County = models.CharField(max_length=100)
     City = models.CharField(max_length=100, null=True)
@@ -131,3 +132,8 @@ def create_save_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
         instance.profile.save()
+
+
+class Image(models.Model):
+    user = models.ForeignKey(User, related_name="images", on_delete=models.CASCADE)
+    image_url = models.URLField(max_length=250, null=True)

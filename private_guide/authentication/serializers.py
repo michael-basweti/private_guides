@@ -35,6 +35,8 @@ class UserSerializer(serializers.ModelSerializer):
             'max_length': 'Password cannot be more than 128 characters'
         }
     )
+
+    images = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     
     class Meta:
         model = User
@@ -43,6 +45,7 @@ class UserSerializer(serializers.ModelSerializer):
             'email',
             'full_name',
             'password',
+            'images'
         )
         extra_kwargs = {'password':{'write_only':True}}
 
