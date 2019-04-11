@@ -20,4 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('authentication/',include(('authentication.urls','authentication'), namespace='authentication')),
     path('profile/',include(('create_guide_profile.urls','profile'), namespace='profile')),
+    path('review/',include(('reviews.urls','reviews'), namespace='reviews')),
 ]
