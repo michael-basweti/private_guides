@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'authentication',
     'create_guide_profile',
+    'blog'
 ]
 
 MIDDLEWARE = [
