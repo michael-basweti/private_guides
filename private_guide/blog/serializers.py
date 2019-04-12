@@ -4,6 +4,7 @@ from .models import Blog, Comment
 class BlogSerializer(serializers.ModelSerializer):
 
     user = serializers.ReadOnlyField(source='user.id')
+    comments = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Blog
