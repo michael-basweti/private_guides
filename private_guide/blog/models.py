@@ -8,3 +8,11 @@ class Blog(models.Model):
     image = models.URLField(null=True)
     created_at = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(User, related_name="commentor", on_delete=models.CASCADE)
+    blog = models.ForeignKey(Blog, related_name="comments", on_delete=models.CASCADE)
+    body = models.TextField(null=False, blank = False)
+    created_at = models.DateTimeField(auto_now_add=True, auto_now=False)
+    updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
