@@ -9,21 +9,30 @@ from authentication.serializers import UserSerializer
 class ProfileSerializer(serializers.ModelSerializer):
     
     age = serializers.SerializerMethodField()
-
-    def update(self, instance, validated_data):
-        user_data = validated_data.pop('user', None)
-        super().update(instance, validated_data)
-        if user_data is not None and user_data.get('email') is not None:
-            instance.user.email = user_data.get('email')
-            instance.user.save()
-        return instance
+    user = serializers.ReadOnlyField(source='user.id')
 
     class Meta:
         model = Profile
         fields = '__all__'
 
+        def update(self, instance, validated_data):
+            # retrieve the User
+            user_data = validated_data.pop('user', None)
+            for attr, value in user_data.items():
+                setattr(instance.user, attr, value)
+
+            # retrieve Profile
+            for attr, value in validated_data.items():
+                setattr(instance, attr, value)
+            instance.user.save()
+            instance.save()
+            return instance
+
     def get_age(self, instance):
-        return datetime.datetime.now().year - instance.dob.year
+        try:
+            return datetime.datetime.now().year - instance.dob.year
+        except:
+            return "Null"
 
     def to_representation(self, instance):
         response = super().to_representation(instance)

@@ -15,10 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from create_guide_profile import views
+
+router = DefaultRouter()
+router.register('profiles', views.ProfileViewSet)
+
 
 urlpatterns = [
+    path('', include(router.urls)),
     path('admin/', admin.site.urls),
     path('authentication/',include(('authentication.urls','authentication'), namespace='authentication')),
-    path('profile/',include(('create_guide_profile.urls','profile'), namespace='profile')),
-    path('review/',include(('reviews.urls','reviews'), namespace='reviews')),
+    path('profile_files/',include(('create_guide_profile.urls','profile_files'), namespace='profile_files')),
 ]
