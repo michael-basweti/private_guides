@@ -41,7 +41,6 @@ class ProfileSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         response = super().to_representation(instance)
         response['user'] = UserSerializer(instance.user).data
-        # response['reviews'] = UserSerializer(instance.reviews).data
         return response
 
     def get_average_rating(self, obj):
