@@ -16,11 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from create_guide_profile import views
+from create_guide_profile.views import ProfileViewSet, ReviewViewSet
+from blog.views import BlogViewSet
 
 router = DefaultRouter()
-router.register('profiles', views.ProfileViewSet)
-router.register('reviews', views.ReviewViewSet)
+router.register('profiles', ProfileViewSet)
+router.register('reviews', ReviewViewSet)
+router.register('blog', BlogViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
