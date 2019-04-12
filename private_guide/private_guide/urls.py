@@ -20,7 +20,7 @@ from create_guide_profile import views
 
 router = DefaultRouter()
 router.register('profiles', views.ProfileViewSet)
-
+router.register('reviews', views.ReviewViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

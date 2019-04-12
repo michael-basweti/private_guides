@@ -143,8 +143,8 @@ class Video(models.Model):
     video_url = models.URLField(max_length=250, null=True)
 
 class Review(models.Model):
-    reviewer = models.ForeignKey(User, related_name="reviewer", on_delete=models.CASCADE)
-    profile_id = models.ForeignKey(Profile, related_name="profile_id", on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name="reviewer", on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, related_name="reviews", on_delete=models.CASCADE)
     review = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)

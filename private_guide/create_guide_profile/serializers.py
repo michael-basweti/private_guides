@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-from .models import Profile, Image, Video
+from .models import Profile, Image, Video, Review
 from authentication.models import User
 import datetime
 from authentication.serializers import UserSerializer
@@ -10,6 +10,8 @@ class ProfileSerializer(serializers.ModelSerializer):
     
     age = serializers.SerializerMethodField()
     user = serializers.ReadOnlyField(source='user.id')
+
+    reviews = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Profile
@@ -55,3 +57,12 @@ class VideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Video
         fields = '__all__'
+
+class ReviewSerializer(serializers.ModelSerializer):
+
+    user = serializers.ReadOnlyField(source='user.id')
+
+    class Meta:
+        model = Review
+        fields = '__all__'
+        
