@@ -146,5 +146,6 @@ class Review(models.Model):
     user = models.ForeignKey(User, related_name="reviewer", on_delete=models.CASCADE)
     profile = models.ForeignKey(Profile, related_name="reviews", on_delete=models.CASCADE)
     review = models.TextField()
+    rating = models.IntegerField(null=True)
     created_at = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)

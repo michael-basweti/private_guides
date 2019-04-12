@@ -1,3 +1,4 @@
+from django.db.models import Avg
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from .models import Profile, Image, Video, Review
@@ -12,6 +13,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.id')
 
     reviews = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    average_rating = serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
@@ -39,7 +41,16 @@ class ProfileSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         response = super().to_representation(instance)
         response['user'] = UserSerializer(instance.user).data
+        # response['reviews'] = UserSerializer(instance.reviews).data
         return response
+
+    def get_average_rating(self, obj):
+        average = obj.reviews.aggregate(Avg('rating')).get('rating__avg')
+        
+        if average is None:
+            return 0
+        
+        return round(average*2)/2
 
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -66,3 +77,9 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = Review
         fields = '__all__'
         
+    def validate_rating(self, value):
+        if value in range(1, 6):
+            return value
+        raise serializers.ValidationError(
+            'Rating must be an integer between 1 and 5'
+        )
