@@ -82,3 +82,8 @@ class ReviewSerializer(serializers.ModelSerializer):
         raise serializers.ValidationError(
             'Rating must be an integer between 1 and 5'
         )
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['user'] = UserSerializer(instance.user).data
+        return response
