@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'authentication',
     'create_guide_profile',
-    'blog'
+    'blog',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'private_guide.urls'
@@ -139,3 +141,11 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     )
 }
+# MIDDLEWARE_CLASSES = (
+
+#     'corsheaders.middleware.CorsMiddleware',
+#     'django.middleware.common.CommonMiddleware',
+
+# )
+
+CORS_ORIGIN_ALLOW_ALL = True
