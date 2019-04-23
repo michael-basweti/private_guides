@@ -5,6 +5,9 @@ from .models import Profile, Image, Video, Review
 from .serializers import ProfileSerializer, ImageSerializer, VideoSerializer, ReviewSerializer
 from .permissions import IsOwnerOrReadOnly
 
+def current_profile(request):
+    authenticated_user=request.user
+    return authenticated_user.profile
 
 class ProfileViewSet(mixins.ListModelMixin,
                      mixins.RetrieveModelMixin,
@@ -19,6 +22,22 @@ class ProfileViewSet(mixins.ListModelMixin,
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
 
+class UserProfile(viewsets.ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly,)
+
+    
+    def get_object(self):
+        """
+        This view should return a list of all the purchases
+        for the currently authenticated user.
+        """
+        user = self.request.user
+        return Profile.objects.filter(user=user)
+    
+    
 class ImageView(generics.ListCreateAPIView):
     queryset = Image.objects.all()
     serializer_class = ImageSerializer

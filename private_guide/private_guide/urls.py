@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from create_guide_profile.views import ProfileViewSet, ReviewViewSet
+from create_guide_profile.views import ProfileViewSet, ReviewViewSet, UserProfile
 from blog.views import BlogViewSet, CommentViewSet
 
 router = DefaultRouter()
@@ -24,6 +24,7 @@ router.register('profiles', ProfileViewSet)
 router.register('reviews', ReviewViewSet)
 router.register('blog', BlogViewSet)
 router.register('comments', CommentViewSet)
+router.register('myProfile', UserProfile, base_name='UserProfile',)
 
 urlpatterns = [
     path('', include(router.urls)),
