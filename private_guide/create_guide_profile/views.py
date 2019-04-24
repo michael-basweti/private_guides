@@ -23,13 +23,13 @@ class ProfileViewSet(mixins.ListModelMixin,
                           IsOwnerOrReadOnly,)
 
 class UserProfile(viewsets.ModelViewSet):
-    queryset = Profile.objects.all()
+    # queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
 
     
-    def get_object(self):
+    def get_queryset(self):
         """
         This view should return a list of all the purchases
         for the currently authenticated user.
