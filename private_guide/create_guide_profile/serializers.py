@@ -4,15 +4,23 @@ from rest_framework.validators import UniqueValidator
 from .models import Profile, Image, Video, Review
 from authentication.models import User
 import datetime
+from django.utils import formats
 from authentication.serializers import UserSerializer
 
 class ReviewSerializer(serializers.ModelSerializer):
 
     user = serializers.ReadOnlyField(source='user.id')
+    duration = serializers.SerializerMethodField()
 
     class Meta:
         model = Review
         fields = '__all__'
+
+    def get_duration(self, instance):
+        try:
+            return formats.date_format(instance.updated_at, "SHORT_DATETIME_FORMAT")
+        except:
+            return "Null"
         
     def validate_rating(self, value):
         if value in range(1, 6):
