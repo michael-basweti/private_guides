@@ -6,13 +6,32 @@ from authentication.models import User
 import datetime
 from authentication.serializers import UserSerializer
 
+class ReviewSerializer(serializers.ModelSerializer):
+
+    user = serializers.ReadOnlyField(source='user.id')
+
+    class Meta:
+        model = Review
+        fields = '__all__'
+        
+    def validate_rating(self, value):
+        if value in range(1, 6):
+            return value
+        raise serializers.ValidationError(
+            'Rating must be an integer between 1 and 5'
+        )
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['user'] = UserSerializer(instance.user).data
+        return response
 
 class ProfileSerializer(serializers.ModelSerializer):
     
     age = serializers.SerializerMethodField()
     user = serializers.ReadOnlyField(source='user.id')
 
-    reviews = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    reviews = ReviewSerializer(many=True, read_only=True)
     average_rating = serializers.SerializerMethodField()
 
     class Meta:
@@ -68,22 +87,4 @@ class VideoSerializer(serializers.ModelSerializer):
         model = Video
         fields = '__all__'
 
-class ReviewSerializer(serializers.ModelSerializer):
 
-    user = serializers.ReadOnlyField(source='user.id')
-
-    class Meta:
-        model = Review
-        fields = '__all__'
-        
-    def validate_rating(self, value):
-        if value in range(1, 6):
-            return value
-        raise serializers.ValidationError(
-            'Rating must be an integer between 1 and 5'
-        )
-
-    def to_representation(self, instance):
-        response = super().to_representation(instance)
-        response['user'] = UserSerializer(instance.user).data
-        return response
