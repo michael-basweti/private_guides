@@ -18,7 +18,7 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     def get_duration(self, instance):
         try:
-            return formats.date_format(instance.updated_at, "SHORT_DATETIME_FORMAT")
+            return formats.date_format(instance.updated_at, "DATE_FORMAT")
         except:
             return "Null"
         
