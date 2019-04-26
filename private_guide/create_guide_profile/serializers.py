@@ -7,6 +7,22 @@ import datetime
 from django.utils import formats
 from authentication.serializers import UserSerializer
 
+class ImageSerializer(serializers.ModelSerializer):
+
+    user = serializers.ReadOnlyField(source='user.id')
+
+    class Meta:
+        model = Image
+        fields = '__all__'
+
+class VideoSerializer(serializers.ModelSerializer):
+
+    user = serializers.ReadOnlyField(source='user.id')
+
+    class Meta:
+        model = Video
+        fields = '__all__'
+
 class ReviewSerializer(serializers.ModelSerializer):
 
     user = serializers.ReadOnlyField(source='user.id')
@@ -40,6 +56,8 @@ class ProfileSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.id')
 
     reviews = ReviewSerializer(many=True, read_only=True)
+    profile_images = ImageSerializer(many=True, read_only=True)
+    profile_videos = VideoSerializer(many=True, read_only=True)
     average_rating = serializers.SerializerMethodField()
 
     class Meta:
@@ -78,21 +96,5 @@ class ProfileSerializer(serializers.ModelSerializer):
         
         return round(average*2)/2
 
-
-class ImageSerializer(serializers.ModelSerializer):
-
-    user = serializers.ReadOnlyField(source='user.id')
-
-    class Meta:
-        model = Image
-        fields = '__all__'
-
-class VideoSerializer(serializers.ModelSerializer):
-
-    user = serializers.ReadOnlyField(source='user.id')
-
-    class Meta:
-        model = Video
-        fields = '__all__'
 
 

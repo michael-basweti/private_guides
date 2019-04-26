@@ -35,9 +35,6 @@ class UserSerializer(serializers.ModelSerializer):
             'max_length': 'Password cannot be more than 128 characters'
         }
     )
-
-    images = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    videos = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     
     class Meta:
         model = User
