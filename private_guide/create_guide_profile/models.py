@@ -4,6 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from authentication.models import User
+from .validators import validate_file_size
 from phonenumber_field.modelfields import PhoneNumberField
 
 
@@ -142,7 +143,7 @@ class Image(models.Model):
 class Video(models.Model):
     user = models.ForeignKey(User, related_name="videos", on_delete=models.CASCADE)
     profile = models.ForeignKey(Profile, related_name="profile_videos", on_delete=models.CASCADE, default=1)
-    video_url = models.URLField(max_length=250, null=True)
+    video_url = models.FileField(upload_to='videos-data', validators=[validate_file_size])
 
 class Review(models.Model):
     user = models.ForeignKey(User, related_name="reviewer", on_delete=models.CASCADE)
