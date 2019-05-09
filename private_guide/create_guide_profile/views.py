@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from .models import Profile, Image, Video, Review
 from .serializers import ProfileSerializer, ImageSerializer, VideoSerializer, ReviewSerializer
 from .permissions import IsOwnerOrReadOnly
+from rest_framework.parsers import MultiPartParser
 
 def current_profile(request):
     authenticated_user=request.user
@@ -42,6 +43,7 @@ class ImageView(generics.ListCreateAPIView):
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    parser_classes = (MultiPartParser, )
 
     def perform_create(self, serializer):
          serializer.save(user=self.request.user)
