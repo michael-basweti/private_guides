@@ -137,12 +137,12 @@ def create_save_profile(sender, instance, created, **kwargs):
 
 class Image(models.Model):
     user = models.ForeignKey(User, related_name="images", on_delete=models.CASCADE)
-    profile = models.ForeignKey(Profile, related_name="profile_images", on_delete=models.CASCADE, default=1)
-    image_url = models.ImageField(upload_to='images-data')
+    profile = models.ForeignKey(Profile, related_name="profile_images", on_delete=models.CASCADE)
+    image_url = models.FileField(upload_to='images-data')
 
 class Video(models.Model):
     user = models.ForeignKey(User, related_name="videos", on_delete=models.CASCADE)
-    profile = models.ForeignKey(Profile, related_name="profile_videos", on_delete=models.CASCADE, default=1)
+    profile = models.ForeignKey(Profile, related_name="profile_videos", on_delete=models.CASCADE)
     video_url = models.FileField(upload_to='videos-data', validators=[validate_file_size])
 
 class Review(models.Model):
