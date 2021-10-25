@@ -7,7 +7,7 @@ django-boto==0.3.12
 django-cors-headers==2.5.2
 django-phonenumber-field==2.3.1
 django-storages==1.7.1
-djangorestframework==3.9.2
+djangorestframework==3.11.2
 docutils==0.14
 isort==4.3.17
 jmespath==0.9.4
